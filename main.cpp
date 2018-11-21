@@ -146,16 +146,22 @@ class Gene
 	}
 	Allele GetExpressedTrait() //EEEEERRRRRRRRRROOOOORRRRR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	{
-		/*if (A.GetVType() == "dominant")
+		Allele nullA;
+
+		if (A.GetVType() == "dominant")
 		{
 			return A;
 		}
 		else if (B.GetVType() == "dominant")
 		{
 			return B;
-		}*/
+		}
+		else
+		{
+			return nullA;
+		}
 
-		return this->B;
+		//return this->B;
 	}
 	bool RunUnitTests()
 	{
@@ -246,6 +252,14 @@ class Chromosome
 			string g;
 			string h;
 
+			/*while (intoStream.is_open())
+			{
+				if (intoStream.peek() == ',')
+				{
+					intoStream.ignore(1);
+				}
+			}*/
+
 			intoStream >> a;
 			input.SetGeneName(a);
 			intoStream >> b;
@@ -277,6 +291,7 @@ class Chromosome
 
 		while (i < GeneVector.size())
 		{
+			outChrome << "Chromosome " << i + 1 << endl;
 			outChrome << GeneVector.at(i).GetGeneName() << ", ";
 			outChrome << GeneVector.at(i).GetGeneTraitType() << ", ";
 			Gene out = GeneVector.at(i);
@@ -288,6 +303,9 @@ class Chromosome
 			outChrome << outB.GetVName() << ", ";
 			outChrome << outB.GetVType() << ", ";
 			outChrome << outB.GetNTS() << ", ";
+			outChrome << endl;
+
+			cout << "Printing..." << endl;
 
 			i++;
 		}
@@ -337,6 +355,8 @@ class GeneSequencer
 		int GeneCount;
 		cout << "How many Genes are in your Chromosome?" << endl;
 		cin >> GeneCount;
+		cin.clear();
+		cin.ignore(1);
 		cout << endl
 			 << endl;
 
@@ -348,6 +368,8 @@ class GeneSequencer
 		int GeneCount;
 		cout << "How many genes are you importing to your Chromosome from file?" << endl;
 		cin >> GeneCount;
+		cin.clear();
+		cin.ignore(1);
 		cout << endl
 			 << endl;
 
@@ -377,16 +399,71 @@ class GeneSequencer
 	}
 };
 
+//--------------------------------
+//Seperate Menu Function
+//--------------------------------
+
+void MenuFunc()
+{
+	cout << "Note: Importing and exporting works with included csv file and text file, has not been tested with outide csv file yet. " << endl;
+
+	string menuNum;
+	GeneSequencer a;
+	Chromosome usrC;
+	Chromosome usrD(5);
+	ofstream fileOut; //Must pass this in when outputting to file, at least in allele class
+	ifstream fileIn;
+
+	cout << "Enter your menu selection, 1 - Create Chromosome, 2 - Analyze Chromosome," << endl;
+	cout << "3 - Output Chromosome to File, 4 - Input Chromosome to file, 5 - Combine Chromosomes, 6 - Exit" << endl;
+
+	getline(cin, menuNum);
+	cout << endl;
+
+	while (menuNum != "0" && menuNum != "6")
+	{
+		if (menuNum == ("1"))
+		{
+			cout << "Creating Chromosome..." << endl;
+			usrC = a.CreateChromosome();
+		}
+		else if (menuNum == ("2"))
+		{
+			cout << "Start sequencing..." << endl;
+			a.SequenceChromosome(usrC);
+		}
+		else if (menuNum == ("3"))
+		{
+			cout << "Exporting Chromosome..." << endl;
+			a.ExportChromosome(usrC, fileOut);
+		}
+		else if (menuNum == ("4"))
+		{
+			cout << "Importing Chromosome..." << endl;
+			usrC = a.ImportChromosome(fileIn);
+		}
+		else if (menuNum == ("5"))
+		{
+			cout << "Doing Meiosis..." << endl;
+			usrC = a.DoMeiosis(usrC, usrD);
+		}
+
+		cout << "Enter menu choice again: ";
+		getline(cin, menuNum);
+		cout << endl;
+	}
+}
+
 int main(int argc, char *argv[])
 {
+	MenuFunc();
 
-	ofstream fileOut; //Must pass this in when outputting to file, at least in allele class
-	ifstream fileIn;  //Must pass in
+	//Must pass in
 
-	Chromosome a(10);
+	//Chromosome a(10);
 	//GeneSequencer ab;
 	//ab.SequenceChromosome(a);
-	a.AnalyzeGenotype();
+	//a.AnalyzeGenotype();
 
 	/*Gene test;
 	bool testBool = test.RunUnitTests();*/

@@ -1,0 +1,4 @@
+Chromosome 1
+UH56, hair-color, blonde, recessive, TTCC, Dark, dominant, CCAGG, 
+Chromosome 2
+WPM987, Cancer-L, High, recessive, TCGC, Low, dominant, CATGG, 
