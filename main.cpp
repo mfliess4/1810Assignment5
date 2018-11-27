@@ -42,7 +42,18 @@ class Allele
 	bool RunUnitTests()
 	{
 		bool testOutcome = 1;
-		//Tests FIXME
+		Allele test;
+		test.SetNTS("aaa");
+		if (test.GetNTS() == "aaa")
+		{
+			cout << "Allele test pass." << endl;
+			testOutcome = 1;
+		}
+		else
+		{
+			cout << "Allele test fail." << endl;
+			testOutcome = 0;
+		}
 		return testOutcome;
 	}
 
@@ -167,31 +178,34 @@ class Gene
 	{
 		Gene testGene;
 		string GetGeneTest;
+		bool testOutcome;
 
 		testGene.SetGeneName("test gene");
-		if (testGene.name != "test gene")
+		/*if (testGene.name != "test gene")
 		{
 			cout << "Set Gene name test fail." << endl;
 		}
 		else
 		{
 			cout << "Set Gene name test pass." << endl;
-		}
+		}*/
 
 		GetGeneTest = testGene.GetGeneName();
 		if (GetGeneTest != "test gene")
 		{
-			cout << "Get Gene name test fail." << endl;
+			cout << "Get Gene test fail." << endl;
+			testOutcome = 0;
 		}
 		else
 		{
-			cout << "Get gene name test pass." << endl;
+			cout << "Get gene test pass." << endl;
+			testOutcome = 1;
 		}
 
-		testGene.A.SetVName("hair");
-		cout << testGene.A.GetVName() << endl;
+		//testGene.A.SetVName("hair");
+		//cout << testGene.A.GetVName() << endl;
 
-		bool testOutcome = 1;
+		//bool testOutcome = 1;
 		return testOutcome;
 	}
 };
@@ -260,21 +274,22 @@ class Chromosome
 				}
 			}*/
 
-			intoStream >> a;
+			//intoStream >> a;
+			getline(intoStream, a, ',');
 			input.SetGeneName(a);
-			intoStream >> b;
+			getline(intoStream, b, ',');
 			input.SetGeneTraitType(b);
-			intoStream >> c;
+			getline(intoStream, c, ',');
 			AA.SetVName(c);
-			intoStream >> d;
+			getline(intoStream, d, ',');
 			AA.SetVType(d);
-			intoStream >> e;
+			getline(intoStream, e, ',');
 			AA.SetNTS(e);
-			intoStream >> f;
+			getline(intoStream, f, ',');
 			BB.SetVName(f);
-			intoStream >> g;
+			getline(intoStream, g, ',');
 			BB.SetVType(g);
-			intoStream >> h;
+			getline(intoStream, h, ',');
 			BB.SetNTS(h);
 
 			input.SetAlleleA(AA);
@@ -340,6 +355,25 @@ class Chromosome
 	{
 		this->GeneVector = setter;
 	}
+	bool RunUnitTests()
+	{
+		Chromosome test(5);
+		bool testOutcome;
+		vector<Gene> a;
+		a = test.returnVector();
+		if (a.size() > 0)
+		{
+			cout << "Chromosome test pass." << endl;
+			testOutcome = 1;
+		}
+		else
+		{
+			cout << "Chromosome test fail." << endl;
+			testOutcome = 0;
+		}
+
+		return testOutcome;
+	}
 };
 
 //--------------------------------------------
@@ -391,11 +425,36 @@ class GeneSequencer
 		Chromosome returner;
 		returner.SetGeneVector(aVec);
 
-		return returner;
+		A.
+
+			return returner;
 	}
 	void SequenceChromosome(Chromosome entry)
 	{
 		entry.AnalyzeGenotype();
+	}
+	void PowerOnSelfTest()
+	{
+		Allele testA;
+		Gene testG;
+		Chromosome testC;
+
+		bool boolA;
+		bool boolG;
+		bool boolC;
+
+		boolA = testA.RunUnitTests();
+		boolG = testG.RunUnitTests();
+		boolC = testC.RunUnitTests();
+
+		if (boolA == 1 && boolG == 1 && boolC == 1)
+		{
+			cout << "POST passed." << endl;
+		}
+		else
+		{
+			cout << "Post failed." << endl;
+		}
 	}
 };
 
@@ -405,7 +464,7 @@ class GeneSequencer
 
 void MenuFunc()
 {
-	cout << "Note: Importing and exporting works with included csv file and text file, has not been tested with outide csv file yet. " << endl;
+	//cout << "Note: Importing and exporting works with included csv file and text file, has not been tested with outide csv file yet. " << endl;
 
 	string menuNum;
 	GeneSequencer a;
@@ -456,6 +515,8 @@ void MenuFunc()
 
 int main(int argc, char *argv[])
 {
+	GeneSequencer testA;
+	testA.PowerOnSelfTest();
 	MenuFunc();
 
 	//Must pass in
